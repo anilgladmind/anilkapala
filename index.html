@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anilkumar Kapala · Full Stack Developer</title>
+<meta name="description" content="Anilkumar Kapala, full stack developer with 13+ years of experience in Angular, TypeScript, NgRx, RxJS and Node.js.">
+<meta name="theme-color" content="#F4F4F0">
+<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/redhatmono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F7DF1E'/%3E%3Ctext x='16' y='22' font-size='16' font-weight='700' text-anchor='middle' font-family='monospace'%3EJS%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:Archivo;font-weight:500 800;font-style:normal;font-display:swap;src:url(fonts/archivo.woff2) format('woff2')}
+@font-face{font-family:'Red Hat Mono';font-weight:400 600;font-style:normal;font-display:swap;src:url(fonts/redhatmono.woff2) format('woff2')}
+:root{--a:#F7DF1E;--ink:#101010;--bg:#F4F4F0;--mut:#3A3A37;--mono:'Red Hat Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden;-webkit-text-size-adjust:100%}
+a{color:var(--ink)}a:hover{color:#6B5F00}
+a:focus-visible,button:focus-visible{outline:3px solid #6B5F00;outline-offset:2px}
+h1,h2,p,ul{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:clamp(20px,3vw,36px) clamp(16px,4vw,40px) 96px;display:flex;flex-direction:column;gap:clamp(56px,8vw,96px)}
+.mono{font-family:var(--mono)}
+.nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 24px;font-family:var(--mono);font-size:13px;position:sticky;top:0;z-index:50;background:var(--bg);margin:calc(-1*clamp(20px,3vw,36px)) calc(-1*clamp(16px,4vw,40px)) 0;padding:clamp(12px,2vw,20px) clamp(16px,4vw,40px);transition:transform .25s ease,box-shadow .25s}
+.nav.stuck{box-shadow:0 1px 0 #D8D8D0}
+.nav.hide{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.nav{transition:none}}
+.top{align-self:center;margin-top:-40px;min-height:44px;display:flex;align-items:center;font-family:var(--mono);font-size:14px;font-weight:600;border:2px solid var(--ink);border-radius:999px;padding:0 24px;text-decoration:none}
+.top:hover{background:var(--ink);color:var(--bg)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand b{background:var(--a);font-weight:600;padding:6px 8px;line-height:1}
+.nav nav{display:flex;flex-wrap:wrap;gap:0 20px}
+.nav nav a,.contact a{min-height:44px;display:flex;align-items:center}
+.hero{display:flex;flex-wrap:wrap;align-items:center;gap:32px 48px}
+.hero-t{flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:24px}
+.eyebrow{font-family:var(--mono);font-size:14px;font-weight:600}
+h1{font-weight:800;font-size:clamp(44px,8vw,104px);line-height:.92;letter-spacing:-.045em}
+h1 span{background:var(--a);padding:0 .12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.lead{max-width:660px;font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--mut)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{padding:12px 24px;border-radius:999px;font-family:var(--mono);font-weight:600;font-size:14px;text-decoration:none;min-height:44px;display:flex;align-items:center;border:2px solid var(--ink)}
+.btn.p{background:var(--ink);color:var(--bg)}.btn.p:hover{color:var(--a)}
+.portrait{flex:0 1 380px;min-width:240px;width:100%;max-width:380px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.frame{background:var(--a);border:2px solid var(--ink);border-radius:16px;padding:12px}
+.frame canvas{display:block;width:100%;height:auto;border-radius:6px;aspect-ratio:400/440}
+.cap{font-family:var(--mono);font-size:12px;color:var(--mut);display:flex;justify-content:space-between;gap:12px}
+.loop{background:var(--ink);color:var(--bg);border-radius:14px;padding:clamp(14px,2.5vw,24px);display:flex;flex-direction:column;gap:12px;scroll-margin-top:80px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.lh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 12px;font-family:var(--mono);font-size:13px}
+.lh span:first-child{color:var(--a)}.lh span:last-child{color:#9A9A94}
+.pane{background:#1C1C1C;border-radius:8px;min-width:0}
+.code{padding:8px 4px;font-family:var(--mono);font-size:12.5px;line-height:1.55;overflow-x:auto;flex:1 1 340px}
+.code div{display:flex;gap:12px;padding:1px 12px;min-width:max-content}
+.code .on{background:var(--a);color:var(--ink)}
+.code i{font-style:normal;width:14px;text-align:right;opacity:.5}
+.code span{white-space:pre}
+.con{padding:10px 14px;display:flex;flex-direction:column;gap:3px;flex:1 1 340px;font-family:var(--mono);font-size:12.5px;line-height:1.5}
+.con h3,.q h3{margin:0;font-weight:400;font-size:11px}
+.con div{display:flex;gap:14px}.con i{font-style:normal;color:var(--a);min-width:20px}.con span{min-width:0;overflow-wrap:anywhere}
+.q{flex:1 1 150px;padding:10px 12px;display:flex;flex-direction:column;gap:5px;min-height:84px}
+.q div{padding:5px 10px;border-radius:5px;font-family:var(--mono);font-size:12px;color:var(--ink)}
+.q .e{background:none;color:#6A6A64}
+.ctl{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+#note{font-size:clamp(14px,1.8vw,16px);line-height:1.45;max-width:640px;min-height:40px;flex:1 1 280px}
+.ctl button{background:transparent;color:var(--bg);border:1px solid #4A4A46;padding:12px 20px;border-radius:999px;cursor:pointer;min-height:44px;font-family:var(--mono);font-size:13px}
+.ctl button:hover{border-color:var(--bg)}
+.ctl #next{background:var(--a);color:var(--ink);border:0;padding:12px 24px;font-weight:600}
+.ctl #next:hover{filter:brightness(.93)}
+.why{display:flex;flex-wrap:wrap;gap:24px 40px;align-items:flex-start}
+.why>div:first-child{flex:1 1 320px;display:flex;flex-direction:column;gap:16px}
+.why>div:last-child{flex:1 1 380px;display:flex;flex-direction:column;gap:18px;font-size:clamp(16px,2vw,18px);line-height:1.7;color:var(--mut)}
+.k{font-family:var(--mono);font-size:13px;color:#6B5F00}
+h2{font-size:clamp(34px,5vw,48px);letter-spacing:-.03em;line-height:1}
+code{font-family:var(--mono);font-size:15px;background:#E8E8E0;padding:2px 6px;border-radius:4px}
+.sec{display:flex;flex-direction:column;gap:28px;scroll-margin-top:80px}
+.sh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px 12px}
+.sh span{font-family:var(--mono);font-size:13px;color:#5C5C58}
+.grid{display:flex;flex-wrap:wrap;gap:16px}
+.card{flex:1 1 440px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:14px}
+.card.hot{flex-basis:100%;background:var(--a)}
+.meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;font-family:var(--mono);font-size:12px}
+.card h3{margin:0;font-size:clamp(22px,3vw,26px);font-weight:800;line-height:1.1}
+.hot h3{font-size:clamp(22px,3vw,28px)}
+.tech{font-family:var(--mono);font-size:12.5px;line-height:1.6;color:#5C5C58}
+.hot .tech{color:var(--ink)}
+.card ul{padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.55;color:var(--mut)}
+.hot ul{font-size:15.5px;color:var(--ink)}
+.box{flex:1 1 300px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:24px 28px;display:flex;flex-direction:column;gap:8px}
+.box.big{padding:28px;gap:12px}
+.box.y{background:var(--a)}
+.box small{font-family:var(--mono);font-size:12px}
+.box b{font-size:20px;font-weight:800}
+.box p{font-size:15px;line-height:1.5;color:var(--mut)}
+.box .t{font-size:18px;font-weight:600;line-height:1.6;color:var(--mut)}
+.box.y .t{font-size:21px;font-weight:700;line-height:1.5;color:var(--ink)}
+.contact{border-top:2px solid var(--ink);padding-top:32px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;scroll-margin-top:80px}
+.contact h2{font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.contact h2 span{font-family:var(--mono);font-size:clamp(18px,3vw,28px);font-weight:500}
+.contact div{display:flex;flex-direction:column;font-family:var(--mono);font-size:15px}
+.contact a{overflow-wrap:anywhere}
+.menu{display:none;background:none;border:2px solid var(--ink);border-radius:8px;width:44px;height:44px;padding:0;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.menu i{display:block;width:20px;height:2px;background:var(--ink);transition:transform .2s,opacity .2s}
+.menu[aria-expanded=true] i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu[aria-expanded=true] i:nth-child(2){opacity:0}
+.menu[aria-expanded=true] i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:640px){
+.portrait{display:none}
+.menu{display:flex}
+.nav{flex-wrap:wrap}
+.nav nav{display:none;flex-basis:100%;flex-direction:column;border-top:2px solid var(--ink);margin-top:4px}
+.nav nav.open{display:flex}
+.nav nav a{font-size:15px;border-bottom:1px solid #D8D8D0}
+.ctl .row{flex-wrap:nowrap;width:100%;gap:6px}
+.ctl button{flex:1 1 0;padding:12px 6px;font-size:12px;white-space:nowrap}
+.ctl #next{padding:12px 6px}
+.btn{flex:1 1 100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+
+<header class="nav">
+<span class="brand"><b>JS</b>anilkumar.kapala</span>
+<button class="menu" id="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><i></i><i></i><i></i></button>
+<nav id="nav" aria-label="Primary"><a href="#loop">event loop</a><a href="#work">work</a><a href="#stack">stack</a><a href="#contact">contact</a></nav>
+</header>
+
+<main style="display:contents">
+<section class="hero">
+<div class="hero-t">
+<div class="eyebrow">FULL STACK DEVELOPER · 13+ YEARS</div>
+<h1>Anilkumar<br><span>Kapala.</span></h1>
+<p class="lead">I'm a full stack developer with 13+ years of experience. I build with Angular, TypeScript, NgRx and RxJS on the front end and Node.js on the back end, and ship through CI/CD. Run my career through the event loop below.</p>
+<div class="btns">
+<a class="btn p" href="#loop">Run my career ↓</a>
+<a class="btn" href="assets/Anilkumar_Kapala_Resume.pdf" target="_blank" rel="noopener noreferrer">Download resume (PDF)</a>
+</div>
+</div>
+<div class="portrait">
+<div class="frame"><canvas id="dots" width="800" height="880" role="img" aria-label="Halftone illustration of a developer at a desk with code on the monitor"></canvas></div>
+<div class="cap"><span>design · build · ship</span><span>13+ years</span></div>
+</div>
+</section>
+
+<section class="loop" id="loop" aria-label="Event loop demo">
+<div class="lh"><span>// WHAT PRINTS, AND IN WHAT ORDER?</span><span>step <span id="sn">0</span> / <span id="st">0</span></span></div>
+<div class="row">
+<div class="pane code" id="code"></div>
+<div class="pane con"><h3>CONSOLE</h3><div id="out"></div></div>
+</div>
+<div class="row">
+<div class="pane q"><h3 style="color:var(--a)">CALL STACK</h3><div id="q-stack"></div></div>
+<div class="pane q"><h3 style="color:#7AB8FF">WEB APIs</h3><div id="q-web"></div></div>
+<div class="pane q"><h3 style="color:#FF7A93">MICROTASK QUEUE</h3><div id="q-micro"></div></div>
+<div class="pane q"><h3 style="color:#5BE49B">TASK QUEUE</h3><div id="q-task"></div></div>
+</div>
+<div class="ctl">
+<p id="note" aria-live="polite"></p>
+<div class="row">
+<button id="reset" type="button">RESET</button>
+<button id="back" type="button">← BACK</button>
+<button id="next" type="button">NEXT →</button>
+</div>
+</div>
+</section>
+
+<section class="why">
+<div><div class="k">HOW TO READ IT</div><h2>Same order as my resume.</h2></div>
+<div><p>Synchronous code prints first, then microtasks, then tasks. I set the program up so the console ends in resume order: newest role first.</p><p>The same model sits behind debouncing input with RxJS, cancelling stale requests with <code>switchMap</code> and keeping NgRx effects predictable.</p></div>
+</section>
+
+<section class="sec" id="work">
+<div class="sh"><h2>Work, queued.</h2><span>7 roles · 13+ years · newest first</span></div>
+<div class="grid">
+<article class="card hot">
+<div class="meta"><span>PRINTED #2 · SYNC · NOW</span><span>10/2024 – present</span></div>
+<h3>Senior Engineer · FICO (Fair Isaac India)</h3>
+<div class="tech">Angular 19 · TypeScript · NgRx · RxJS · Nx · Module Federation · Jest · Helm · Kubernetes</div>
+<ul>
+<li>Design and build Micro Frontends with Nx Monorepo and Module Federation, deployed independently.</li>
+<li>Develop Feature Management capabilities for enterprise financial technology applications.</li>
+<li>Improved application performance by approximately 30% with lazy loading, code splitting and efficient rendering.</li>
+<li>Reduced development effort by approximately 25% through reusable components and shared libraries.</li>
+<li>Grand Prize Winner, AWS Cost Optimization Hackathon at FICO.</li>
+</ul></article>
+
+<article class="card">
+<div class="meta"><span>PRINTED #3 · MICROTASK</span><span>08/2022 – 10/2024</span></div>
+<h3>Senior Technical Lead · Perfios</h3>
+<div class="tech">Angular 14+ · Node.js · React (internal tools) · REST · GitLab CI/CD</div>
+<ul>
+<li>Contributed to the Digital Lending Platform and led frontend and technical delivery.</li>
+<li>Built Business Rule Engine workflows for customer profiles, eligibility and lending decisions.</li>
+<li>Ran sprint planning, task distribution and code reviews.</li>
+<li>Secured integrations with encrypted request and response payloads.</li>
+<li>Cut manual deployment effort with GitLab CI/CD pipelines.</li>
+</ul></article>
+
+<article class="card">
+<div class="meta"><span>PRINTED #4 · MICROTASK</span><span>04/2021 – 08/2022</span></div>
+<h3>Senior Software Engineer · EKA Software Solutions</h3>
+<div class="tech">Angular · Node.js · MongoDB · JavaScript · SCSS · Jenkins · React (one small project)</div>
+<ul>
+<li>Developed responsive Angular modules and reusable UI components for commodity trading and supply chain applications.</li>
+<li>Wrote JavaScript data-processing scripts for MongoDB collection and document updates.</li>
+<li>Created Jenkins pipelines that reduced manual deployment effort and errors.</li>
+</ul></article>
+
+<article class="card">
+<div class="meta"><span>PRINTED #5 · TASK</span><span>12/2018 – 03/2021</span></div>
+<h3>Senior Software Engineer · Digital Harbor</h3>
+<div class="tech">Angular · Webpack · NPM · Nexus · HTML5 · CSS3</div>
+<ul>
+<li>Built Angular applications for a Healthcare Risk Management platform.</li>
+<li>Published and versioned reusable Angular NPM packages and shared user profile modules through Nexus.</li>
+<li>Reduced development effort by approximately 30% with the reusable component libraries.</li>
+</ul></article>
+
+<article class="card">
+<div class="meta"><span>PRINTED #6 · TASK</span><span>07/2015 – 12/2018</span></div>
+<h3>Senior Consultant / UI Consultant · NTT DATA</h3>
+<div class="tech">Angular · React · Node.js · HTML5 · CSS3 · WCAG · Salesforce UI components</div>
+<ul>
+<li>Delivered enterprise UI for client projects including Honeywell, TIAA-CREF, Kimberly-Clark, Sky Network and XFactor.</li>
+<li>Built responsive, accessible interfaces to WCAG requirements and converted PSD designs to pixel-perfect pages.</li>
+<li>Created reusable Angular and Salesforce UI components with designers.</li>
+</ul></article>
+
+<article class="card">
+<div class="meta"><span>PRINTED #7 · TASK</span><span>03/2015 – 07/2015</span></div>
+<h3>Software Engineer · Gladminds</h3>
+<div class="tech">jQuery · PhoneGap · Cordova · PHP · SQLite</div>
+<ul>
+<li>Built the AfterBuy and AfterSell service applications.</li>
+<li>Added offline functionality that improved field-user productivity by approximately 20%.</li>
+</ul></article>
+
+<article class="card">
+<div class="meta"><span>PRINTED #8 · TASK</span><span>10/2012 – 02/2015</span></div>
+<h3>Software Engineer · Bitla Software</h3>
+<div class="tech">Ruby on Rails · JavaScript</div>
+<ul>
+<li>Built responsive SaaS web applications for the transport and hospitality domains.</li>
+</ul></article>
+</div>
+</section>
+
+<section class="sec" id="stack">
+<h2>What runs my work.</h2>
+<div class="grid">
+<div class="box big y"><small>CORE</small><div class="t">Angular · TypeScript · JavaScript · NgRx · RxJS · Nx Monorepo · Micro Frontends · Module Federation</div></div>
+<div class="box big"><small>SUPPORTING</small><div class="t">Node.js · React · REST APIs · MongoDB · SCSS · Jest · Playwright · Cypress · Webpack · NPM · Git · CI/CD · Docker · Helm · Kubernetes</div></div>
+<div class="box big"><small>EARLIER</small><div class="t">Ruby on Rails · PHP · jQuery · Cordova · PhoneGap · MySQL · SQLite</div></div>
+</div>
+<div class="grid">
+<div class="box"><small>EDUCATION</small><b>B.Tech, Computer Science</b><p>Prajna Institute of Technology &amp; Management, JNTU Kakinada · 2008–2012</p></div>
+<div class="box"><small>LEARNING NOW</small><b>Modern Angular 21 with Signals</b><p>Udemy course · in progress since 03/2026</p></div>
+<div class="box"><small>LANGUAGES</small><b>English · Telugu</b><p>English fluent · Telugu native</p></div>
+</div>
+</section>
+
+<section class="contact" id="contact">
+<h2>Resolve me: <span>Promise.resolve(hire)</span></h2>
+<div>
+<a href="mailto:bornfreeani@gmail.com">bornfreeani@gmail.com</a>
+<a href="https://linkedin.com/in/anilkumarkapala" target="_blank" rel="noopener noreferrer">linkedin.com/in/anilkumarkapala</a>
+</div>
+</section>
+</main>
+<a class="top" href="#top">↑ Back to top</a>
+</div>
+
+<script>
+/* dotted portrait: 40x44 grid, radius*10 encoded as char code - 48 */
+(function(){
+var R="LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIJKKKKJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJG;8AJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ@557GJJJIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIA558GIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIG@=DIIIIHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGFFFFFFFHIIIIIIIIIIIIIIIIIIIIIIIIIIIHFFFFFFFFFFG\\```````````````````````````]HFFFEEEEEEI`[SSSSSSSSSSSSSSSSSSSSSSSSSYaKEEEEEEEEEH`SBBBBEFFFFFFFFFCBBBBBBBBBBPaKEEEDDDDDDH`SBBBCV[[[[[[[[[NBBBBBBBBBBPaJDDDCCCCCCG`SHQUVUUUUUUUUUPCBBBBBBBBBBPaJCCCCCCCCCG`^bdddc]TSSRQQQMBBBBBBBBBBBPaJCCCBBBBBBFaddddddd`[[RBBBBBBBBBBBBBBBPaIBBBAAAAAAQddddddddcXUUTTTHBBBBBBBBBBBPaIAAA@@@@@A[ddddddddd^SSSSSJFFDBBBBBBBBPaH@@@?????@Oddddddddd^[[[[[[[[TBBBBBBBBPaH????????J^ddddddddd^UFDDDDDDCBBBBBBBBPaG???====>]ddddddddddd^HFFFFFFFCBBBBBBBPaG===77779]ddddddddddda[[[[[[[[NBBBBBBBPaE77755555K^dddddddddcYUTFDDDDDCBBBBBBBPaE555555555HcdddddddbSQQQDBBBBBBBBBBBBBPaE555555555AbdddddddYDDDDDDDDDDDDDDDDDDQaE555555555A`ddddddc`__________________`aE555555555<Y_addd`_____`aa`____________Z?55555558AKQTWddcH=====P__X============:555555:KZbdddddddP;5555P__X75555555>PPM855555BZcdddddddddd[E:::P__X:::96555I``^P?555F_ddddddddddddda\\[[]``_[[[[H555I``]PJ555_dddddddddddddddcWTTTTTTTTSC888I``]N=888ddddddddddddddddd^SSSSSSSSSSSSSTZZXSSSSSdddddddddddddddddd[XXXXXXXXXXXXXXXXXXXXXdddddddddddddddddd`YYYYYYYYYYYYYYYYYYYYYddddddddddddddddddc[[[[[[[[[[[[[[[[[[[[[ddddddddddddddddddd]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ddddddddddddddddddd^]]]]]]]]]]]]]]]]]]]]ddddddddddddddddddd_^^^^^^^^^^^^^^^^^^^^",c=document.getElementById('dots'),x=c.getContext('2d');
+x.scale(2,2);x.fillStyle='#101010';x.beginPath();
+for(var i=0;i<R.length;i++){var r=(R.charCodeAt(i)-48)/10;if(r>0){var cx=(i%40)*10+5,cy=((i/40)|0)*10+5;x.moveTo(cx+r,cy);x.arc(cx,cy,r,0,6.2832)}}
+x.fill();
+})();
+
+/* mobile menu */
+(function(){
+var b=document.getElementById('menu'),n=document.getElementById('nav');
+function set(o){n.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}
+b.onclick=function(){set(!n.classList.contains('open'))};
+n.onclick=function(e){if(e.target.tagName==='A')set(false)};
+})();
+
+/* hide nav on scroll down, show on scroll up */
+(function(){
+var h=document.querySelector('.nav'),y=0,tk=false;
+function f(){
+var c=window.pageYOffset;
+h.classList.toggle('stuck',c>10);
+if(!document.getElementById('nav').classList.contains('open'))
+h.classList.toggle('hide',c>y&&c>120);
+else h.classList.remove('hide');
+y=c<0?0:c;tk=false}
+addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(f)}},{passive:true});
+})();
+
+/* event loop demo */
+(function(){
+var code=["setTimeout(() => print(digitalHarbor), 0);","setTimeout(() => print(nttData), 0);","setTimeout(() => print(gladminds), 0);","setTimeout(() => print(bitla), 0);","Promise.resolve().then(() => print(perfios));","Promise.resolve().then(() => print(eka));","print(summary);","print(fico);"];
+var lineOf={digitalHarbor:0,nttData:1,gladminds:2,bitla:3,perfios:4,eka:5};
+var text={summary:'13+ years · Angular · TypeScript · NgRx · RxJS · Micro Frontends',fico:'FICO · Senior Engineer · 10/2024 – now',perfios:'Perfios · Senior Technical Lead · 08/2022 – 10/2024',eka:'EKA Software Solutions · Senior Software Engineer · 04/2021 – 08/2022',digitalHarbor:'Digital Harbor · Senior Software Engineer · 12/2018 – 03/2021',nttData:'NTT DATA · Senior Consultant, UI · 07/2015 – 12/2018',gladminds:'Gladminds · Software Engineer · 03/2015 – 07/2015',bitla:'Bitla Software · Software Engineer · 10/2012 – 02/2015'};
+var stmts=[['t','digitalHarbor'],['t','nttData'],['t','gladminds'],['t','bitla'],['m','perfios'],['m','eka'],['l','summary'],['l','fico']];
+var F=[],st={web:[],micro:[],task:[],out:[]};
+function snap(line,stack,note){F.push({line:line,stack:stack.slice(),web:st.web.slice(),micro:st.micro.slice(),task:st.task.slice(),out:st.out.slice(),note:note})}
+snap(-1,[],'Press NEXT to run the script one step at a time.');
+snap(-1,['main()'],'The script starts as main() on the call stack.');
+stmts.forEach(function(s,i){
+if(s[0]==='t'){st.web.push(s[1]);snap(i,['setTimeout()','main()'],'setTimeout hands '+s[1]+' to the browser timer. It does not run now.')}
+else if(s[0]==='m'){st.micro.push(s[1]);snap(i,['then()','main()'],'The promise is already resolved, so '+s[1]+' goes straight to the microtask queue.')}
+else{st.out.push(text[s[1]]);snap(i,['print()','main()'],'Synchronous code runs immediately, so it prints right now.')}
+});
+snap(-1,[],'main() finishes and the stack is empty. Now the loop can pick up queued work.');
+st.task=st.web;st.web=[];
+snap(-1,[],'The 0 ms timers finish, but their callbacks can only wait in the task queue.');
+while(st.micro.length){var id=st.micro.shift();st.out.push(text[id]);snap(lineOf[id],['print()',id+'()'],'Microtasks always run first. The whole queue empties before any task.')}
+while(st.task.length){var id2=st.task.shift();st.out.push(text[id2]);snap(lineOf[id2],['print()',id2+'()'],'Then one task at a time, with microtasks checked again in between.')}
+snap(-1,[],'Done. The console reads like a resume: newest role first.');
+var last=F.length-1,n=0,$=function(i){return document.getElementById(i)};
+$('st').textContent=last;
+var codeEl=$('code');
+code.forEach(function(t,i){var d=document.createElement('div'),a=document.createElement('i'),b=document.createElement('span');a.textContent=i+1;b.textContent=t;d.append(a,b);codeEl.appendChild(d)});
+var rows=codeEl.children;
+var colors={'q-stack':'var(--a)','q-web':'#7AB8FF','q-micro':'#FF7A93','q-task':'#5BE49B'};
+function fill(id,arr){var el=$(id);el.textContent='';el.style.display='contents';(arr.length?arr:['empty']).forEach(function(t){var d=document.createElement('div');d.textContent=t;if(t==='empty')d.className='e';else d.style.background=colors[id];el.appendChild(d)})}
+function render(){
+var f=F[n];$('sn').textContent=n;$('note').textContent=f.note;
+for(var i=0;i<rows.length;i++)rows[i].className=i===f.line?'on':'';
+fill('q-stack',f.stack);fill('q-web',f.web);fill('q-micro',f.micro);fill('q-task',f.task);
+var o=$('out');o.textContent='';o.style.display='contents';
+f.out.forEach(function(t,i){var d=document.createElement('div'),a=document.createElement('i'),b=document.createElement('span');a.textContent=i+1;b.textContent=t;d.append(a,b);o.appendChild(d)});
+if(!f.out.length){var e=document.createElement('div');e.style.color='#6A6A64';e.textContent='·';o.appendChild(e)}
+}
+$('reset').onclick=function(){n=0;render()};
+$('back').onclick=function(){n=Math.max(0,n-1);render()};
+$('next').onclick=function(){n=Math.min(last,n+1);render()};
+render();
+})();
+</script>
+</body>
+</html>

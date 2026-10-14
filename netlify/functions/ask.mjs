@@ -64,9 +64,12 @@ export default async (req, context) => {
   const ip = context?.ip || req.headers.get("x-nf-client-connection-ip") || "unknown";
   if (!limiter(ip)) return json({ error: "rate_limited" }, 429, { ...cors, "retry-after": "60" });
 
-  const key = process.env.ANTHROPIC_API_KEY;
-  const model = process.env.ANTHROPIC_MODEL;
-  if (!key || !model) return json({ error: "unavailable" }, 503, cors);
+  // AI_PROVIDER picks the model host: "anthropic" (default) or "groq" (free tier). Switch it in Netlify, no code change.
+  const provider = (process.env.AI_PROVIDER || "anthropic").toLowerCase();
+  const cfg = provider === "groq"
+    ? { key: process.env.GROQ_API_KEY, model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile" }
+    : { key: process.env.ANTHROPIC_API_KEY, model: process.env.ANTHROPIC_MODEL };
+  if (!cfg.key || !cfg.model) return json({ error: "unavailable" }, 503, cors);
 
   let data;
   try { data = loadData(); } catch { return json({ error: "unavailable" }, 503, cors); }
@@ -75,25 +78,34 @@ export default async (req, context) => {
   const messages = [...v.history, { role: "user", content: `<visitor_message>${v.q}</visitor_message>` }];
 
   try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model, max_tokens: 350, system, messages }),
-      signal: AbortSignal.timeout(20000)
-    });
+    const r = provider === "groq"
+      ? await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: { "content-type": "application/json", authorization: `Bearer ${cfg.key}` },
+          body: JSON.stringify({ model: cfg.model, max_tokens: 350, temperature: 0.2, messages: [{ role: "system", content: system }, ...messages] }),
+          signal: AbortSignal.timeout(20000)
+        })
+      : await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "content-type": "application/json", "x-api-key": cfg.key, "anthropic-version": "2023-06-01" },
+          body: JSON.stringify({ model: cfg.model, max_tokens: 350, system, messages }),
+          signal: AbortSignal.timeout(20000)
+        });
     if (!r.ok) {
-      // Log only the status and error type from Anthropic (no visitor text, no key) so a 502 can be diagnosed.
+      // Log only the status and error type (no visitor text, no key) so a failure can be diagnosed.
       let type = "";
-      try { type = (await r.json())?.error?.type || ""; } catch {}
-      console.error(`anthropic ${r.status} ${type}`);
+      try { const e = (await r.json())?.error; type = (typeof e === "string" ? e : e?.type || e?.code) || ""; } catch {}
+      console.error(`${provider} ${r.status} ${type}`);
       return json({ error: "unavailable", reason: `upstream_${r.status}${type ? "_" + type : ""}` }, 502, cors);
     }
     const out = await r.json();
-    const text = (out.content || []).filter((b) => b.type === "text").map((b) => b.text).join("\n").trim();
+    const text = (provider === "groq"
+      ? out.choices?.[0]?.message?.content || ""
+      : (out.content || []).filter((b) => b.type === "text").map((b) => b.text).join("\n")).trim();
     if (!text) return json({ error: "unavailable", reason: "empty_reply" }, 502, cors);
     return json({ answer: text }, 200, cors);
   } catch (e) {
-    console.error(`anthropic fetch failed: ${e?.name || "error"}`);
+    console.error(`${provider} fetch failed: ${e?.name || "error"}`);
     return json({ error: "unavailable", reason: e?.name === "TimeoutError" ? "timeout" : "network" }, 502, cors);
   }
 };

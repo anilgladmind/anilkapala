@@ -35,6 +35,17 @@ Site configuration, then Environment variables:
 
 Environment changes only apply to new deploys. After saving, go to Deploys, then Trigger deploy, then Deploy site.
 
+### Switching the AI provider
+
+The function supports two providers. Switch with one variable and redeploy, no code change.
+
+| `AI_PROVIDER` | needs | notes |
+|---|---|---|
+| `anthropic` (default) | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | paid, best at staying on profile |
+| `groq` | `GROQ_API_KEY`, optional `GROQ_MODEL` (default `llama-3.3-70b-versatile`) | free tier, no card, shared rate limits |
+
+To go back to Anthropic, set `AI_PROVIDER=anthropic` (or delete the variable) and redeploy.
+
 ## 4. Test it
 
 1. Open `https://your-site.netlify.app/ask.html` and ask "What have you done with Angular?"

@@ -113,3 +113,31 @@ test("endpoint sends profile in system prompt, wraps visitor text, never returns
     globalThis.fetch = realFetch;
   }
 });
+
+// Provider switch: Groq (OpenAI-style) request and response shapes
+test("AI_PROVIDER=groq calls Groq with the profile in the system message", async () => {
+  process.env.AI_PROVIDER = "groq";
+  process.env.GROQ_API_KEY = "gsk-test";
+  delete process.env.GROQ_MODEL;
+  process.env.ALLOWED_ORIGIN = "https://example.com";
+  let sent;
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    sent = { url, init, body: JSON.parse(init.body) };
+    return new Response(JSON.stringify({ choices: [{ message: { content: "I work at FICO." } }] }), { status: 200 });
+  };
+  try {
+    const { default: handler } = await import("../netlify/functions/ask.mjs");
+    const res = await handler(new Request("https://example.com/api/ask", { method: "POST", headers: { origin: "https://example.com", "content-type": "application/json" }, body: JSON.stringify({ q: "Where do you work?" }) }), { ip: "9.9.9.9" });
+    assert.equal(res.status, 200);
+    assert.equal((await res.json()).answer, "I work at FICO.");
+    assert.match(sent.url, /api\.groq\.com/);
+    assert.equal(sent.init.headers.authorization, "Bearer gsk-test");
+    assert.equal(sent.body.model, "llama-3.3-70b-versatile");
+    assert.equal(sent.body.messages[0].role, "system");
+    assert.match(sent.body.messages[0].content, /<profile>[\s\S]*FICO[\s\S]*<\/profile>/);
+  } finally {
+    globalThis.fetch = realFetch;
+    delete process.env.AI_PROVIDER;
+  }
+});

@@ -81,12 +81,19 @@ export default async (req, context) => {
       body: JSON.stringify({ model, max_tokens: 350, system, messages }),
       signal: AbortSignal.timeout(20000)
     });
-    if (!r.ok) return json({ error: "unavailable" }, 502, cors);
+    if (!r.ok) {
+      // Log only the status and error type from Anthropic (no visitor text, no key) so a 502 can be diagnosed.
+      let type = "";
+      try { type = (await r.json())?.error?.type || ""; } catch {}
+      console.error(`anthropic ${r.status} ${type}`);
+      return json({ error: "unavailable", reason: `upstream_${r.status}${type ? "_" + type : ""}` }, 502, cors);
+    }
     const out = await r.json();
     const text = (out.content || []).filter((b) => b.type === "text").map((b) => b.text).join("\n").trim();
-    if (!text) return json({ error: "unavailable" }, 502, cors);
+    if (!text) return json({ error: "unavailable", reason: "empty_reply" }, 502, cors);
     return json({ answer: text }, 200, cors);
-  } catch {
-    return json({ error: "unavailable" }, 502, cors);
+  } catch (e) {
+    console.error(`anthropic fetch failed: ${e?.name || "error"}`);
+    return json({ error: "unavailable", reason: e?.name === "TimeoutError" ? "timeout" : "network" }, 502, cors);
   }
 };

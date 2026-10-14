@@ -141,3 +141,61 @@ test("AI_PROVIDER=groq calls Groq with the profile in the system message", async
     delete process.env.AI_PROVIDER;
   }
 });
+
+import { extras, slimHistory } from "../netlify/functions/lib/context.mjs";
+import { visualIntent, parseMd } from "../ask/rich.mjs";
+import { readFileSync } from "node:fs";
+
+test("java and interests context load only when asked", () => {
+  assert.deepEqual(extras("What have you done with Angular?"), []);
+  assert.deepEqual(extras("Do you know JavaScript?"), []);
+  assert.deepEqual(extras("Do you know Java?"), ["java"]);
+  assert.deepEqual(extras("where did you use Spring Boot"), ["java"]);
+  assert.deepEqual(extras("What are your hobbies?"), ["interests"]);
+  assert.deepEqual(extras("which projects?", [{ role: "user", content: "do you know java" }, { role: "assistant", content: "yes" }]), ["java"]);
+});
+
+test("core profile and offline answers never mention Java unless asked", () => {
+  const profile = readFileSync(new URL("../ask-data/profile.md", import.meta.url), "utf8");
+  assert.ok(!/\bjava\b|spring/i.test(profile));
+  for (const q of ["What is your tech stack?", "Tell me about FICO", "Tell me about Perfios", "What can you do?"]) {
+    const txt = answer(q).lines.map((l) => l.t).join(" ");
+    assert.ok(!/\bjava\b|spring/i.test(txt), q);
+  }
+  assert.match(answer("Do you know Java?").lines.map((l) => l.t).join(" "), /Spring Boot/);
+});
+
+test("interests answer: photography first, cooking second", () => {
+  assert.match(answer("What are your hobbies?").lines[0].t, /Photography.*cooking/);
+});
+
+test("slimHistory keeps four turns and shortens long replies", () => {
+  const h = Array.from({ length: 6 }, (_, i) => ({ role: i % 2 ? "assistant" : "user", content: "x".repeat(900) }));
+  const s = slimHistory(h);
+  assert.equal(s.length, 4);
+  assert.equal(s[0].role, "user");
+  assert.equal(s[1].content.length, 500);
+});
+
+test("visual intents", () => {
+  assert.equal(visualIntent("Show your career graph"), "career");
+  assert.equal(visualIntent("can you show my career visually"), "career");
+  assert.equal(visualIntent("Show your photos"), "photos");
+  assert.equal(visualIntent("What have you done with Angular?"), null);
+  assert.equal(visualIntent("Tell me about FICO"), null);
+});
+
+test("parseMd groups lists and keeps paragraphs", () => {
+  const b = parseMd("Hello\n- a\n- b\n1. one\n2. two");
+  assert.deepEqual(b.map((x) => [x.type, x.items.length]), [["p", 1], ["ul", 2], ["ol", 2]]);
+});
+
+import { photoCat, wantsPhotos } from "../ask/rich.mjs";
+test("photo intents and categories", () => {
+  assert.equal(photoCat("show your bird photos"), "birds");
+  assert.equal(photoCat("what are your hobbies"), null);
+  assert.equal(visualIntent("Show your bird photos"), "photos");
+  assert.ok(wantsPhotos("What are your hobbies?") && wantsPhotos("tell me about bird photography"));
+  assert.ok(!wantsPhotos("Tell me about FICO"));
+  assert.deepEqual(extras("bird photography"), ["interests"]);
+});

@@ -10,3 +10,16 @@
   for = "/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Resumes, the profile and private notes are read by the function only. They are not public pages.
+[[redirects]]
+  from = "/ask-data/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Photos shown in the Ask chat (resized copies live in assets/photography/web).
+[[headers]]
+  for = "/assets/photography/web/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

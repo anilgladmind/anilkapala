@@ -46,6 +46,12 @@ The function supports two providers. Switch with one variable and redeploy, no c
 
 To go back to Anthropic, set `AI_PROVIDER=anthropic` (or delete the variable) and redeploy.
 
+### Profile files and photos
+
+- `ask-data/profile.md` is the compact core sent with every question. `java.md` and `interests.md` are added only when the question is about Java or hobbies. `ask-data/resumes/*.md` are reference copies of your resumes and are never sent to the model.
+- `/ask-data/*` is blocked from public access in `netlify.toml`; only the function reads it.
+- Photos: originals go in `assets/photography/` named `<category>-<n>.JPG` (birds, flower, macro, travel, nature, common, edited). Run `node scripts/build-photos.mjs` to make the small web copies and `photos.json`, then commit. The chat shows random photos for hobby questions and only that category when a visitor names one (for example birds).
+
 ## 4. Test it
 
 1. Open `https://your-site.netlify.app/ask.html` and ask "What have you done with Angular?"

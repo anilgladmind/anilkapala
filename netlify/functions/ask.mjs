@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { precheck, validate, makeLimiter, MAX_INPUT } from "./lib/guard.mjs";
+import { extras, slimHistory } from "./lib/context.mjs";
 
 export const config = { path: "/api/ask" };
 
@@ -22,7 +23,9 @@ function loadData() {
     try {
       cache = {
         profile: readFileSync(join(b, "profile.md"), "utf8"),
-        prompt: readFileSync(join(b, "system-prompt.md"), "utf8")
+        prompt: readFileSync(join(b, "system-prompt.md"), "utf8"),
+        java: readFileSync(join(b, "java.md"), "utf8"),
+        interests: readFileSync(join(b, "interests.md"), "utf8")
       };
       return cache;
     } catch {}
@@ -74,8 +77,9 @@ export default async (req, context) => {
   let data;
   try { data = loadData(); } catch { return json({ error: "unavailable" }, 503, cors); }
 
-  const system = `${data.prompt.trim()}\n\n<profile>\n${data.profile.trim()}\n</profile>`;
-  const messages = [...v.history, { role: "user", content: `<visitor_message>${v.q}</visitor_message>` }];
+  const more = extras(v.q, v.history).map((k) => data[k].trim()).join("\n");
+  const system = `${data.prompt.trim()}\n\n<profile>\n${data.profile.trim()}\n</profile>${more ? `\n<context>\n${more}\n</context>` : ""}`;
+  const messages = [...slimHistory(v.history), { role: "user", content: `<visitor_message>${v.q}</visitor_message>` }];
 
   try {
     const r = provider === "groq"

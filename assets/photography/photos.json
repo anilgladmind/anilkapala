@@ -1,0 +1,77 @@
+[
+ {
+  "id": "birds-1",
+  "cat": "birds",
+  "alt": "Birds photograph by Anil"
+ },
+ {
+  "id": "common-1",
+  "cat": "common",
+  "alt": "Common photograph by Anil"
+ },
+ {
+  "id": "common-2",
+  "cat": "common",
+  "alt": "Common photograph by Anil"
+ },
+ {
+  "id": "common-3",
+  "cat": "common",
+  "alt": "Common photograph by Anil"
+ },
+ {
+  "id": "edited-1",
+  "cat": "edited",
+  "alt": "Edited photograph by Anil"
+ },
+ {
+  "id": "flower-1",
+  "cat": "flower",
+  "alt": "Flower photograph by Anil"
+ },
+ {
+  "id": "flower-2",
+  "cat": "flower",
+  "alt": "Flower photograph by Anil"
+ },
+ {
+  "id": "flower-3",
+  "cat": "flower",
+  "alt": "Flower photograph by Anil"
+ },
+ {
+  "id": "flower-4",
+  "cat": "flower",
+  "alt": "Flower photograph by Anil"
+ },
+ {
+  "id": "macro-1",
+  "cat": "macro",
+  "alt": "Macro photograph by Anil"
+ },
+ {
+  "id": "macro-2",
+  "cat": "macro",
+  "alt": "Macro photograph by Anil"
+ },
+ {
+  "id": "nature-1",
+  "cat": "nature",
+  "alt": "Nature photograph by Anil"
+ },
+ {
+  "id": "nature-2",
+  "cat": "nature",
+  "alt": "Nature photograph by Anil"
+ },
+ {
+  "id": "travel-1",
+  "cat": "travel",
+  "alt": "Travel photograph by Anil"
+ },
+ {
+  "id": "travel-2",
+  "cat": "travel",
+  "alt": "Travel photograph by Anil"
+ }
+]

@@ -1,4 +1,5 @@
 import { answer, START, MAIL_LINK, IN_LINK } from "./kb.mjs";
+import { visualIntent, wantsPhotos, leadFor, careerGraph, gallery, parseMd, blockNode } from "./rich.mjs";
 
 const $ = (id) => document.getElementById(id);
 const list = $("list"), chipsEl = $("chips"), form = $("f"), input = $("q"), go = $("go");
@@ -59,7 +60,7 @@ function links(box, items) {
 }
 function setChips(labels) {
   chipsEl.textContent = "";
-  for (const l of labels.slice(0, 3)) {
+  for (const l of labels.slice(0, 4)) {
     const b = el("button", null, l);
     b.type = "button";
     b.onclick = () => ask(l);
@@ -90,7 +91,7 @@ async function callApi(q) {
   const r = await fetch("/api/ask", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ q, history: convo.slice(-6) }),
+    body: JSON.stringify({ q, history: convo.slice(-4) }),
     signal: AbortSignal.timeout(25000)
   });
   if (!r.ok) throw new Error("api " + r.status);
@@ -98,6 +99,23 @@ async function callApi(q) {
   if (!j || typeof j.answer !== "string" || !j.answer) throw new Error("empty");
   return j.answer;
 }
+
+// Types the text of a node in word by word, like a streamed reply.
+async function typeIn(node) {
+  const tw = document.createTreeWalker(node, NodeFilter.SHOW_TEXT), parts = [];
+  for (let n; (n = tw.nextNode()); ) parts.push([n, n.nodeValue]);
+  parts.forEach(([n]) => (n.nodeValue = ""));
+  const total = parts.reduce((a, [, t]) => a + t.length, 0);
+  const step = Math.max(2, Math.ceil(total / 55)); // about 55 ticks per block
+  for (const [n, full] of parts) {
+    for (let i = step; i < full.length + step; i += step) {
+      n.nodeValue = full.slice(0, i);
+      await wait(22);
+    }
+    n.nodeValue = full;
+  }
+}
+const nearEnd = () => list.scrollTo?.({ top: 0 }); // column-reverse: scrollTop 0 is the newest message
 
 async function ask(raw) {
   const q = String(raw || "").trim().slice(0, 200);
@@ -108,39 +126,65 @@ async function ask(raw) {
   addUser(q);
   const { box, dots } = addAi();
   const kb = answer(q);
+  const vis = visualIntent(q);
   const t0 = performance.now();
-  let lines, lk = [], text = null;
-  try {
-    text = await callApi(q);
-    lines = parse(text);
-    lk = linksFor(text);
-  } catch {
-    // API down, rate limited or not deployed: use the offline matcher over the same profile.
-    const unmatched = kb.lines === undefined || !kb.n || kb.lines[0].t.startsWith("I can only answer");
-    if (unmatched) {
-      lines = [{ t: "AI is unavailable right now. Please reach me directly:", b: false }];
-      lk = [MAIL_LINK, IN_LINK];
-    } else {
-      lines = kb.lines;
-      lk = kb.links || [];
-      text = lines.map((l) => l.t).join("\n");
+  let blocks = null, lines, lk = [], text = null;
+  if (vis) {
+    // Visual answers need no model call: instant and free.
+    text = leadFor(vis, q);
+    lines = [{ t: text, b: false }];
+  } else {
+    try {
+      text = await callApi(q);
+      blocks = parseMd(text);
+      lk = wantsPhotos(q) ? [] : linksFor(text); // no contact links under hobby and photo answers
+    } catch {
+      // API down, rate limited or not deployed: use the offline matcher over the same profile.
+      const unmatched = kb.lines === undefined || !kb.n || kb.lines[0].t.startsWith("I can only answer");
+      if (unmatched) {
+        lines = [{ t: "AI is unavailable right now. Please reach me directly:", b: false }];
+        lk = [MAIL_LINK, IN_LINK];
+      } else {
+        lines = kb.lines;
+        lk = kb.links || [];
+        text = lines.map((l) => l.t).join("\n");
+      }
     }
   }
-  if (!reduce) await wait(Math.max(0, 600 - (performance.now() - t0)));
+  if (!reduce) await wait(Math.max(0, (vis ? 350 : 600) - (performance.now() - t0)));
   dots.remove();
-  for (let i = 0; i < lines.length; i++) {
-    line(box, lines[i]);
-    if (!reduce && i < lines.length - 1) await wait(320);
+  if (blocks) {
+    for (let i = 0; i < blocks.length; i++) {
+      const n = blockNode(blocks[i]);
+      box.appendChild(n);
+      if (!reduce) await typeIn(n);
+    }
+  } else {
+    for (let i = 0; i < lines.length; i++) {
+      line(box, lines[i]);
+      if (!reduce && i < lines.length - 1) await wait(320);
+    }
+  }
+  if (vis === "career") box.appendChild(careerGraph());
+  if (vis === "photos" || (!vis && wantsPhotos(q))) {
+    const g = await gallery(q);
+    if (g) box.appendChild(g);
+    else if (vis === "photos") box.appendChild(Object.assign(document.createElement("p"), { textContent: "Photos are coming soon." }));
   }
   links(box, lk);
+  nearEnd();
   if (text) {
     convo.push({ role: "user", content: q }, { role: "assistant", content: text });
     convo.splice(0, Math.max(0, convo.length - 6));
   }
-  setChips(kb.n || START);
+  setChips(vis ? NEXT[vis] : kb.n || START);
   setBusy(false);
   if (!mobile.matches) input.focus({ preventScroll: true });
 }
+const NEXT = {
+  career: ["What impact have you had?", "Tell me about FICO", "What do you do outside work?"],
+  photos: ["Show your career graph", "What are your hobbies?", "How can I contact you?"]
+};
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -327,7 +371,7 @@ if (window.visualViewport) {
 {
   const { box, dots } = addAi();
   dots.remove();
-  line(box, { t: "Hi, I'm Anil's AI. Ask me about his work, skills and experience. I only use his resume and technical profile.", b: false });
+  line(box, { t: "Hi, I'm Anil's AI. Ask about his work and skills, see his career as a graph, or ask about photography. I only use his resume and profile.", b: false });
   line(box, { t: "Try a question below, or type your own.", b: false });
   setChips(START);
 }

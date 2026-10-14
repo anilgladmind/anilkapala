@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,interactive-widget=resizes-content">
+<title>Ask Anil's AI</title>
+<meta name="description" content="Ask questions about Anilkumar Kapala's work, stack and experience. Answers come only from his resume and technical profile.">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/redhatmono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="prefetch" href="/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<meta name="theme-color" content="#F7DF1E">
+<script>
+try{if(sessionStorage.getItem('askFrom')){sessionStorage.removeItem('askFrom');if(matchMedia('(max-width:640px)').matches)document.documentElement.classList.add('slide-in')}}catch(e){}
+</script>
+<style>
+@font-face{font-family:Archivo;font-weight:500 800;font-style:normal;font-display:swap;src:url(/fonts/archivo.woff2) format('woff2')}
+@font-face{font-family:'Red Hat Mono';font-weight:400 600;font-style:normal;font-display:swap;src:url(/fonts/redhatmono.woff2) format('woff2')}
+:root{--a:#F7DF1E;--ink:#101010;--bg:#F4F4F0;--mut:#3A3A37;--mono:'Red Hat Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden;-webkit-text-size-adjust:100%}
+a{color:var(--ink)}a:hover{color:#6B5F00}
+a:focus-visible,button:focus-visible{outline:3px solid #6B5F00;outline-offset:2px}
+h1,p{margin:0}
+.wrap{max-width:1000px;margin:0 auto;padding:clamp(20px,3vw,36px) clamp(16px,4vw,40px) 80px;display:flex;flex-direction:column;gap:clamp(28px,5vw,44px);min-height:100vh}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 24px;font-family:var(--mono);font-size:13px}
+.top a{min-height:44px;display:flex;align-items:center;gap:10px;text-decoration:none}
+.top span{display:flex;align-items:center;gap:12px}
+.top b{background:var(--a);font-weight:600;padding:6px 8px;line-height:1}
+.i{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hero{display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-family:var(--mono);font-size:14px;font-weight:600}
+h1{font-weight:800;font-size:clamp(44px,8vw,96px);line-height:.92;letter-spacing:-.045em}
+h1 span{background:var(--a);padding:0 .12em}
+.lead{max-width:640px;font-size:clamp(17px,2vw,20px);line-height:1.6;color:var(--mut)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills span{display:flex;align-items:center;gap:8px;border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px 6px 10px;background:#fff;font-family:var(--mono);font-size:12.5px;font-weight:500}
+.chat{background:var(--ink);color:var(--bg);border-radius:14px;padding:clamp(14px,2.5vw,24px);display:flex;flex-direction:column;gap:14px}
+.ch{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 12px;font-family:var(--mono);font-size:13px}
+.ch span:nth-of-type(1){display:flex;align-items:center;gap:8px;color:var(--a)}
+.ch span:nth-of-type(2){display:flex;align-items:center;gap:8px;color:#9A9A94}
+.ch i{width:8px;height:8px;border-radius:50%;background:#5BE49B;display:inline-block}
+#list{display:flex;flex-direction:column-reverse;gap:14px;min-height:340px;max-height:560px;overflow-y:auto;padding-right:4px;overscroll-behavior:contain}
+.row{display:flex}.row.u{justify-content:flex-end}
+.u .bub{max-width:86%;background:var(--a);color:var(--ink);padding:12px 16px;border-radius:12px 12px 4px 12px;font-size:15.5px;line-height:1.5;font-weight:600;overflow-wrap:anywhere}
+.ai{max-width:min(92%,680px);background:#1C1C1C;padding:14px 18px;border-radius:12px 12px 12px 4px;display:flex;flex-direction:column;gap:9px}
+.ai .lb{font-family:var(--mono);font-size:11px;color:var(--a)}
+.ai p{font-size:15.5px;line-height:1.6;overflow-wrap:anywhere}
+.ai .bl{display:flex;gap:10px;font-size:15px;line-height:1.55}
+.ai .bl::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--a);flex:none;margin-top:9px}
+.ai .bl span{min-width:0;overflow-wrap:anywhere}
+.lk{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.lk a{padding:10px 18px;border-radius:999px;font-family:var(--mono);font-size:13px;text-decoration:none;min-height:44px;display:flex;align-items:center;overflow-wrap:anywhere;border:1px solid #4A4A46;color:var(--bg)}
+.lk a.dl{background:var(--a);color:var(--ink);font-weight:600;border-color:var(--a)}
+.dots{display:flex;gap:5px;padding:6px 0}
+.dots i{width:7px;height:7px;border-radius:50%;background:#9A9A94;display:inline-block;animation:b 1.1s infinite}
+.dots i:nth-child(2){animation-delay:.18s}.dots i:nth-child(3){animation-delay:.36s}
+@keyframes b{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.dots i{animation:none;opacity:.7}}
+#chips{display:flex;flex-wrap:wrap;gap:8px}
+#chips button{background:transparent;color:var(--bg);border:1px solid #4A4A46;padding:10px 16px;border-radius:999px;cursor:pointer;min-height:44px;font-family:var(--mono);font-size:12.5px;text-align:left}
+#chips button:hover{border-color:var(--bg)}
+form{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+#q{flex:1 1 260px;min-width:0;background:#1C1C1C;color:var(--bg);border:1px solid #4A4A46;border-radius:999px;padding:12px 20px;min-height:48px;font-family:var(--mono);font-size:14px}
+#q::placeholder{color:#8A8A84}
+#q:focus{outline:2px solid var(--a);outline-offset:2px}
+form button{background:var(--a);color:var(--ink);border:0;padding:12px 24px;border-radius:999px;cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:var(--mono);font-size:13px;font-weight:600}
+form button:disabled,#q:disabled{opacity:.55;cursor:not-allowed}
+.notes{display:flex;flex-wrap:wrap;gap:12px 40px;align-items:flex-start;font-size:15px;line-height:1.65;color:var(--mut)}
+.notes div{flex:1 1 280px;display:flex;flex-direction:column;gap:6px}
+.notes b{font-family:var(--mono);font-size:12px;font-weight:400;color:#6B5F00}
+
+.land,.back{display:none}
+.land{flex-direction:column;gap:14px}
+.gloss{position:relative;overflow:hidden;border:2px solid var(--ink);border-radius:22px;min-height:150px;display:flex;align-items:center;justify-content:center;background:#101010;box-shadow:inset 0 0 26px 2px rgba(247,223,30,.5),inset 0 1px 0 rgba(255,255,255,.35)}
+.gloss button,.fl-btn{position:relative;background:var(--a);color:var(--ink);border:0;border-radius:999px;min-height:56px;padding:0 36px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:var(--mono);font-size:15px;font-weight:700;box-shadow:0 6px 18px rgba(247,223,30,.35),0 2px 6px rgba(0,0,0,.4)}
+.gloss button:active{transform:translateY(1px)}
+.fl-btn{min-height:0!important;justify-content:center;overflow:hidden;white-space:nowrap;position:fixed}
+.fl-btn span{display:block;overflow:hidden}
+.fl-in{background:#1C1C1C;color:#8A8A84;border:1px solid #4A4A46;border-radius:999px;padding:0 20px;display:flex;align-items:center;font-family:var(--mono);font-size:16px;white-space:nowrap;overflow:hidden}
+.lchips{display:flex;flex-wrap:wrap;gap:8px}
+.lchips button{background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;min-height:44px;font-family:var(--mono);font-size:12.5px;text-align:left}
+.back{width:44px;height:44px;border-radius:50%;border:1px solid #4A4A46;background:transparent;color:var(--bg);cursor:pointer;align-items:center;justify-content:center;padding:0;flex:none}
+@keyframes slidein{from{transform:translateX(100%)}to{transform:none}}
+html.slide-in{overflow:hidden}
+html.slide-in .wrap{animation:slidein .4s cubic-bezier(.22,1,.36,1)}
+@media (prefers-reduced-motion:reduce){html.slide-in .wrap{animation:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes fin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (max-width:640px){
+.land{display:flex}
+.wrap{min-height:100vh;min-height:100dvh;justify-content:flex-start;gap:24px;padding-bottom:24px}
+.chat,.notes{display:none}
+.top{display:flex}
+.top span{display:none}
+.hero{flex:1 1 auto;min-height:0}
+.land{flex:1 1 auto;min-height:150px}
+.gloss{flex:1 1 auto}
+html.on body{overflow:hidden}
+html.on .top,html.on .hero,html.on .notes{display:none}
+html.on .wrap{padding:0;max-width:none;height:100vh;height:var(--vvh,100dvh);min-height:0;gap:0;justify-content:flex-start}
+html.on main{display:flex!important;flex-direction:column;flex:1;min-height:0}
+html.on .chat{display:flex;flex:1 1 auto;min-height:0;border-radius:0;padding:12px 14px calc(14px + env(safe-area-inset-bottom));animation:fade .3s ease .5s backwards}
+html:not(.on) .hero{animation:fade .15s ease}
+html.noanim .chat{animation:none!important}
+html.on #list{flex:1 1 auto;min-height:0;max-height:none}
+html.on .back{display:flex}
+html.on .ch{flex-wrap:nowrap;justify-content:flex-start;gap:10px}
+html.on 
+#q{font-size:16px}
+.eyebrow,.pills{display:none}
+h1{font-size:clamp(60px,19vw,92px)}
+html.on .ch{position:relative;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:0 52px;min-height:44px}
+html.on .back{position:absolute;left:0;top:0}
+html.on .ch span:nth-of-type(2){margin-left:0}
+html.on #chips{flex:0 0 auto;flex-wrap:nowrap;overflow-x:auto;gap:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -14px;padding:0 14px}
+html.on #chips::-webkit-scrollbar{display:none}
+html.on #chips button{flex:none;white-space:nowrap}
+html.on form{flex:0 0 auto;flex-wrap:nowrap;gap:8px}
+html.on .ch span:nth-of-type(2){display:none}
+html.on #chips:empty{display:none}
+html.on #q{flex:1 1 auto}
+html.on form button{flex:0 0 48px;width:48px;height:48px;padding:0}
+html.on form button .t{display:none}
+}
+@media (max-width:640px) and (prefers-reduced-motion:reduce){html.on .chat,html:not(.on) .hero{animation:none}}
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="a-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="a-book" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h14v15H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 0 2 2h14"/></symbol>
+<symbol id="a-web" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18M5 5l14 14"/></symbol>
+<symbol id="a-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="a-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></symbol>
+<symbol id="a-send" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</defs></svg>
+<div class="wrap">
+<header class="top">
+<a href="/"><svg class="i" aria-hidden="true"><use href="#a-back"/></svg>back to portfolio</a>
+<span><b>AI</b>anilkumar.kapala</span>
+</header>
+
+<main style="display:contents">
+<section class="hero">
+<div class="eyebrow">ASK · RESUME-ONLY ASSISTANT</div>
+<h1>Ask my <span>AI.</span></h1>
+<p class="lead">Ask about my work, my stack and what I've shipped. It answers only from my resume and technical profile. It can't browse the web, and it says so when it doesn't know.</p>
+<div class="pills">
+<span><svg class="i" aria-hidden="true"><use href="#a-book"/></svg>Resume data only</span>
+<span><svg class="i" aria-hidden="true"><use href="#a-web"/></svg>No web access</span>
+<span><svg class="i" aria-hidden="true"><use href="#a-check"/></svg>No guessing</span>
+</div>
+<div class="land">
+<div class="gloss"><button id="lgo" type="button" aria-label="Start chatting with Anil's AI"><span>ASK</span><svg class="i" style="width:18px;height:18px;stroke-width:2.2" aria-hidden="true"><use href="#a-send"/></svg></button></div>
+</div>
+</section>
+
+<section class="chat" aria-label="Chat with Anil's AI">
+<div class="ch"><button class="back" id="back" type="button" aria-label="Back to Ask my AI"><svg class="i" style="width:20px;height:20px" aria-hidden="true"><use href="#a-back"/></svg></button><span><svg class="i" aria-hidden="true"><use href="#a-spark"/></svg>// ANIL.AI</span><span><i></i>answers from resume only</span></div>
+<div id="list" aria-live="polite"></div>
+<div id="chips"></div>
+<form id="f" autocomplete="off">
+<input id="q" name="q" type="text" maxlength="200" aria-label="Ask a question about Anil" placeholder="Ask: who are you? what have you done with Angular?">
+<button id="go" type="submit" aria-label="Ask"><span class="t">ASK</span><svg class="i" style="width:16px;height:16px;stroke-width:2.2" aria-hidden="true"><use href="#a-send"/></svg></button>
+</form>
+</section>
+
+<section class="notes">
+<div><b>HOW IT WORKS</b><div>Your question goes to a small server function that asks an AI model to answer using only the facts in my resume profile. If that service is down or busy, the page falls back to a built-in matcher over the same facts. Nothing is pulled from the web.</div></div>
+<div><b>OUT OF SCOPE</b><div>Questions outside my work, such as general knowledge, news or writing code for you, get a polite no. Personal details I haven't published, like salary, get a pointer to contact me.</div></div>
+</section>
+</main>
+</div>
+<script>addEventListener("animationend",function(e){if(e.animationName==="slidein")document.documentElement.classList.remove("slide-in")})</script>
+<script type="module" src="/ask/ask.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[functions]
+  included_files = ["ask-data/**"]
+
+[[headers]]
+  for = "/assets/logos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

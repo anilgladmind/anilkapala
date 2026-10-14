@@ -1,2 +1,5 @@
 .DS_Store
 .serena/
+.env
+.netlify/
+node_modules/

@@ -133,7 +133,7 @@ test("AI_PROVIDER=groq calls Groq with the profile in the system message", async
     assert.equal((await res.json()).answer, "I work at FICO.");
     assert.match(sent.url, /api\.groq\.com/);
     assert.equal(sent.init.headers.authorization, "Bearer gsk-test");
-    assert.equal(sent.body.model, "llama-3.3-70b-versatile");
+    assert.equal(sent.body.model, "openai/gpt-oss-120b");
     assert.equal(sent.body.messages[0].role, "system");
     assert.match(sent.body.messages[0].content, /<profile>[\s\S]*FICO[\s\S]*<\/profile>/);
   } finally {

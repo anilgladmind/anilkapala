@@ -67,7 +67,7 @@ export default async (req, context) => {
   // AI_PROVIDER picks the model host: "anthropic" (default) or "groq" (free tier). Switch it in Netlify, no code change.
   const provider = (process.env.AI_PROVIDER || "anthropic").toLowerCase();
   const cfg = provider === "groq"
-    ? { key: process.env.GROQ_API_KEY, model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile" }
+    ? { key: process.env.GROQ_API_KEY, model: process.env.GROQ_MODEL || "openai/gpt-oss-120b" }
     : { key: process.env.ANTHROPIC_API_KEY, model: process.env.ANTHROPIC_MODEL };
   if (!cfg.key || !cfg.model) return json({ error: "unavailable" }, 503, cors);
 
@@ -82,7 +82,7 @@ export default async (req, context) => {
       ? await fetch("https://api.groq.com/openai/v1/chat/completions", {
           method: "POST",
           headers: { "content-type": "application/json", authorization: `Bearer ${cfg.key}` },
-          body: JSON.stringify({ model: cfg.model, max_tokens: 350, temperature: 0.2, messages: [{ role: "system", content: system }, ...messages] }),
+          body: JSON.stringify({ model: cfg.model, max_tokens: 600, temperature: 0.2, ...(cfg.model.includes("gpt-oss") ? { reasoning_effort: "low" } : {}), messages: [{ role: "system", content: system }, ...messages] }),
           signal: AbortSignal.timeout(20000)
         })
       : await fetch("https://api.anthropic.com/v1/messages", {
@@ -94,8 +94,9 @@ export default async (req, context) => {
     if (!r.ok) {
       // Log only the status and error type (no visitor text, no key) so a failure can be diagnosed.
       let type = "";
-      try { const e = (await r.json())?.error; type = (typeof e === "string" ? e : e?.type || e?.code) || ""; } catch {}
-      console.error(`${provider} ${r.status} ${type}`);
+      let msg = "";
+      try { const e = (await r.json())?.error; type = (typeof e === "string" ? e : e?.type || e?.code) || ""; msg = (typeof e === "string" ? e : e?.message) || ""; } catch {}
+      console.error(`${provider} ${r.status} ${type} model=${cfg.model} ${msg.slice(0, 160)}`);
       return json({ error: "unavailable", reason: `upstream_${r.status}${type ? "_" + type : ""}` }, 502, cors);
     }
     const out = await r.json();

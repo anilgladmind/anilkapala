@@ -42,7 +42,7 @@ The function supports two providers. Switch with one variable and redeploy, no c
 | `AI_PROVIDER` | needs | notes |
 |---|---|---|
 | `anthropic` (default) | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | paid, best at staying on profile |
-| `groq` | `GROQ_API_KEY`, optional `GROQ_MODEL` (default `llama-3.3-70b-versatile`) | free tier, no card, shared rate limits |
+| `groq` | `GROQ_API_KEY`, optional `GROQ_MODEL` (default `openai/gpt-oss-120b`) | free tier, no card, shared rate limits |
 
 To go back to Anthropic, set `AI_PROVIDER=anthropic` (or delete the variable) and redeploy.
 
